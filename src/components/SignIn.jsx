@@ -25,15 +25,16 @@ const SignIn = () => {
             formData.password === savedUser.password
         ) {
             alert("Login Successfully")
+            navigate('/dashboard')
         } else {
             alert("Invalid Username or User is not registered")
         }
-        // navigate('/signup')
+        
 
     }
 
     return (
-        <div className="signin-container min-h-screen flex items-center justify-center">
+        <div className="signin-container bg-auth min-h-screen flex items-center justify-center">
             <div className="flex flex-col md:flex-row bg-white rounded-xl shadow-lg max-w-4xl w-full">
 
                 <div className="right-signup w-full md:w-1/2 p-10 ">

@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import './App.css'
 import SignUp from'./components/SignUp'
 import SignIn from './components/SignIn';
+import Dashboard from './pages/Dashboard';
 
 function App() {
 
@@ -13,7 +14,9 @@ function App() {
           <Route path="/" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="*" element={<SignUp />} /> {/* fallback */}
+          <Route path="/dashboard" element={<Dashboard/>} />
         </Routes>
+        
       </div>
     </Router>
   )

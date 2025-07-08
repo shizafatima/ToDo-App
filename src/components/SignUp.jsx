@@ -89,7 +89,7 @@ const SignUp = () => {
     };
 
     return (
-        <div className="signup-container min-h-screen flex items-center justify-center">
+        <div className="signup-container bg-auth min-h-screen flex items-center justify-center">
             {/* Outer white card with two sides */}
             <div className="flex flex-col md:flex-row bg-white rounded-xl shadow-lg max-w-4xl w-full">
 
