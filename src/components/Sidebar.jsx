@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { ImagePlus, Trash2, LayoutDashboard, ClipboardCheck, ClipboardList, LayoutList, Settings, CircleQuestionMark, LogOut } from 'lucide-react';
+import { NavLink } from "react-router-dom";
 
 
 const Sidebar = () => {
@@ -8,7 +10,7 @@ const Sidebar = () => {
     });
 
     const handleImageUpload = (e) => {
-        const file = e.target.file[0];
+        const file = e.target.files[0];
         const reader = new FileReader();
         reader.onloadend = () => {
             const updatedUser = { ...user, avatar: reader.result }
@@ -20,54 +22,173 @@ const Sidebar = () => {
         };
     };
 
+    const triggerFileInput = () => {
+        document.getElementById("avatarUpload").click();
+    };
     let avatarDisplay;
     if (user.avatar) {
         avatarDisplay = (
-            <div className="relative mb-4">
+            <div className="relative mb-4 group flex flex-col items-center">
 
-                <img
-                    src={user.avatar}
-                    alt="user avatar"
-                    className="w-20 h-20 rounded-full mb-4 border-4 border-white shadow-md object-cover" />
 
-                <label htmlFor="avatarUpload">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image-up-icon lucide-image-up"><path d="M10.3 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10l-3.1-3.1a2 2 0 0 0-2.814.014L6 21"/><path d="m14 19.5 3-3 3 3"/><path d="M17 22v-5.5"/><circle cx="9" cy="9" r="2"/></svg>
-                </label>
+                <div
+                    className="relative cursor-pointer"
+                    onClick={triggerFileInput}
+                    title="Remove or Replace Image">
+
+                    <img
+                        src={user.avatar}
+                        alt="user avatar"
+                        className="w-[105px] h-[105px] rounded-full mb-4 border-4 border-white shadow-md object-cover" />
+
+                    <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity mb-4">
+                        <span className="text-xs text-white text-center px-2">
+                            Replace Image
+                        </span>
+                        <Trash2
+                            onClick={(e) => {
+                                e.stopPropagation(); // ✅ Prevent file input trigger
+                                const updatedUser = { ...user, avatar: null };
+                                setUser(updatedUser);
+                                localStorage.setItem("userData", JSON.stringify(updatedUser));
+                            }}
+                            className="w-4 h-4 mt-1 text-white hover:text-white cursor-pointer"
+                        />
+                    </div>
+
+
+                </div>
             </div>
         );
     } else {
         let initial = "U"
         if (user.userName) {
             initial = user.userName[0].toUpperCase();
+
         }
 
         avatarDisplay = (
-            <div className="w-20 h-20 rounded-full bg-gray-400 text-white flex items-center justify-center text-3xl font-bold mb-4">
-                {initial}
+            <div
+                onClick={triggerFileInput}
+                className="w-20 h-20 rounded-full bg-gray-400 text-white flex flex-col items-center justify-center mb-4 cursor-pointer group"
+                title="Upload Avatar"
+            >
+                <span className="text-3xl font-bold leading-none">
+                    {initial}
+                </span>
+                <ImagePlus className="w-5 h-5 mt-1 text-white opacity-80 group-hover:opacity-100 hidden" />
+                <div className="absolute bottom-0 translate-y-full text-xs text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                    Upload Image
+                </div>
+
             </div>
-        )
+        );
     }
     return (
-        <div className="w-64 h-screen bg-[#ff6a6b] text-white flex flex-col items-center py-6 shadow-lg rounded-r-lg">
-            {avatarDisplay}
-            <p className="text-md font-medium mb-1 font-mono">
-                {user.userName || "User"}
-            </p>
-            <p className="text-xs font-normal mt-0 font-sans">
-                {user.email || "example@gmail.com"}
-            </p>
-            <div>
+        <div className="w-64 h-screen bg-[#ff6a6b] text-white flex flex-col py-6 shadow-lg rounded-r-lg">
+            <div className="flex flex-col items-center mb-6">
 
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="mb-6 text-sm"
-                />
+                {avatarDisplay}
+                <p className="text-md font-medium mb-1 font-mono">
+                    {user.userName || "User"}
+                </p>
+                <p className="text-xs font-normal mt-0 font-sans">
+                    {user.email || "example@gmail.com"}
+                </p>
+                <div>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        id="avatarUpload"
+                        onChange={handleImageUpload}
+                        className="mb-6 text-sm hidden"
+                    />
+                </div>
             </div>
-            <div className="flex flex-col items-center mb-10">
-                <img src="" alt="" />
-            </div>
+            <nav className="flex flex-1 flex-col p-0 ml-0 text-left">
+                <NavLink
+                    to="/dashboard"
+                    className={({ isActive }) =>
+                        `flex items-center gap-2 p-2 m-2 rounded-lg font-medium ${isActive
+                            ? "bg-white text-[#ff6a6b]"
+                            : "hover:bg-red-400 text-white"
+                        }`}
+                >
+                    <LayoutDashboard />
+                    <span>Dashboard</span>
+                </NavLink>
+
+                <NavLink
+                    to="/vital task"
+                    className={({ isActive }) =>
+                        `flex items-center gap-2 p-2 m-2 rounded-lg font-medium ${isActive
+                            ? "bg-white text-[#ff6a6b]"
+                            : "hover:bg-red-400 text-white"
+                        }`}>
+                    <ClipboardList />
+                    <span>Vital Task</span>
+
+                </NavLink>
+
+                <NavLink
+                    to="/my task"
+                    className={({ isActive }) =>
+                        `flex items-center gap-2 p-2 m-2 rounded-lg font-medium ${isActive
+                            ? "bg-white text-[#ff6a6b]"
+                            : "hover:bg-white opacity-50% text-white"
+                        }`}>
+                    <ClipboardCheck />
+                    <span>My Task</span>
+
+                </NavLink>
+
+                <NavLink
+                    to="/task categories"
+                    className={({ isActive }) =>
+                        `flex items-center gap-2 p-2 m-2 rounded-lg font-medium ${isActive
+                            ? "bg-white text-[#ff6a6b]"
+                            : "hover:bg-red-400 text-white"
+                        }`}>
+
+                    <LayoutList />
+                    <span>Task Categories</span>
+                </NavLink>
+
+                <NavLink
+                    to="/settings"
+                    className={({ isActive }) =>
+                        `flex items-center gap-2 p-2 m-2 rounded-lg font-medium ${isActive
+                            ? "bg-white text-[#ff6a6b]"
+                            : "hover:bg-red-400 text-white"
+                        }`}>
+                    <Settings />
+                    <span>Settings</span>
+                </NavLink>
+
+                <NavLink
+                    to="/help"
+                    className={({ isActive }) =>
+                        `flex items-center gap-2 p-2 m-2 rounded-lg font-medium ${isActive
+                            ? "bg-white text-[#ff6a6b]"
+                            : "hover:bg-red-400 text-white"
+                        }`}>
+                    <CircleQuestionMark />
+                    <span>Help</span>
+
+                </NavLink>
+
+                <NavLink
+                    to="/logout"
+                    className={({ isActive }) =>
+                        `flex items-center gap-2 p-2 m-2 rounded-lg font-medium mt-auto ${isActive
+                            ? "bg-white text-[#ff6a6b]"
+                            : "hover:bg-red-400 text-white"
+                        }`}>
+
+                    <LogOut />
+                    <span>Logout</span>
+                </NavLink>
+            </nav>
 
         </div>
     )
