@@ -28,7 +28,7 @@ const Sidebar = () => {
     let avatarDisplay;
     if (user.avatar) {
         avatarDisplay = (
-            <div className="relative mb-4 group flex flex-col items-center">
+            <div className="relative mb-1 mt-0 group flex flex-col items-center">
 
 
                 <div
@@ -39,7 +39,7 @@ const Sidebar = () => {
                     <img
                         src={user.avatar}
                         alt="user avatar"
-                        className="w-[105px] h-[105px] rounded-full mb-4 border-4 border-white shadow-md object-cover" />
+                        className="w-[105px] h-[105px] rounded-full mb-4  shadow-md object-cover" />
 
                     <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity mb-4">
                         <span className="text-xs text-white text-center px-2">
@@ -85,7 +85,7 @@ const Sidebar = () => {
         );
     }
     return (
-        <div className="w-64 h-screen bg-[#ff6a6b] text-white flex flex-col py-6 shadow-lg rounded-r-lg">
+        <div className="w-64 min-h-screen bg-[#ff6a6b] text-white flex flex-col py-6 shadow-lg rounded-r-lg">
             <div className="flex flex-col items-center mb-6">
 
                 {avatarDisplay}
@@ -180,7 +180,7 @@ const Sidebar = () => {
                 <NavLink
                     to="/logout"
                     className={({ isActive }) =>
-                        `flex items-center gap-2 p-2 m-2 rounded-lg font-medium mt-auto ${isActive
+                        `flex align-bottom gap-2 p-2 m-2 rounded-lg font-medium ${isActive
                             ? "bg-white text-[#ff6a6b]"
                             : "hover:bg-red-400 text-white"
                         }`}>
