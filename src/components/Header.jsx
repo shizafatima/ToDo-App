@@ -4,7 +4,7 @@ import { Bell, CalendarDays, Search } from 'lucide-react';
 
 const Header = () => {
     return (
-        <div className="flex items-center justify-between px-8 py-4 bg-white shadow w-full">
+        <div className="flex items-center justify-between px-8 py-4 bg-white shadow w-screen">
             {/* logo */}
             <div className="text-2xl font-bold">
                 <span className="text-red-400 ">Dash</span>
@@ -12,9 +12,9 @@ const Header = () => {
             </div>
 
             {/*search bar*/}
-            <div className="flex items-center bg-gray-100 rounded-l-lg max-w-xl mx-8">
-                <input type="text" placeholder="Search your task here..." className="flex-grow px-4 py-2 rounded-l-lg rounded-r-lg bg-transparent focus:outline-none" />
-                <button className="bg-red-400 px-2 py-3 text-white rounded-r-lg rounded-l-lg">
+            <div className="flex items-center bg-gray-100 rounded-l-lg max-w-3xl mx-8">
+                <input type="text" placeholder="Search your task here..." className="flex-grow px-4 py-2 rounded-l-lg bg-transparent focus:outline-none shadow-md" />
+                <button className="bg-red-400 px-2 py-3 text-white rounded-r-lg  shadow-md">
                     <Search size={18} />
                 </button>
             </div>

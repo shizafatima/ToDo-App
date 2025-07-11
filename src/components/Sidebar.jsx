@@ -85,14 +85,16 @@ const Sidebar = () => {
         );
     }
     return (
-        <div className="w-64 min-h-screen bg-[#ff6a6b] text-white flex flex-col py-6 shadow-lg rounded-r-lg">
+        <div className="w-64 h-full bg-[#ff6a6b] text-white flex flex-col py-6 shadow-lg rounded-r-lg">
             <div className="flex flex-col items-center mb-6">
 
                 {avatarDisplay}
-                <p className="text-md font-medium mb-1 font-mono">
-                    {user.userName || "User"}
+                <p className="text-sm font-medium mb-1 font-mono">
+                    {/* {user.userName || "User"} */}
+                    {user.firstName || "Firstname"}
+                    {user.lastName || "LastName"}
                 </p>
-                <p className="text-xs font-normal mt-0 font-sans">
+                <p className="text-xs font-normal mt-0 font-sans underline decoration-solid ">
                     {user.email || "example@gmail.com"}
                 </p>
                 <div>
@@ -105,25 +107,29 @@ const Sidebar = () => {
                     />
                 </div>
             </div>
-            <nav className="flex flex-1 flex-col p-0 ml-0 text-left">
+
+
+            <nav className="flex flex-col gap-2 px-4 text-left flex-1">
+
                 <NavLink
                     to="/dashboard"
                     className={({ isActive }) =>
                         `flex items-center gap-2 p-2 m-2 rounded-lg font-medium ${isActive
                             ? "bg-white text-[#ff6a6b]"
-                            : "hover:bg-red-400 text-white"
+                            : "hover:bg-red-300 text-white"
                         }`}
                 >
                     <LayoutDashboard />
                     <span>Dashboard</span>
                 </NavLink>
 
+
                 <NavLink
-                    to="/vital task"
+                    to="/vital-task"
                     className={({ isActive }) =>
                         `flex items-center gap-2 p-2 m-2 rounded-lg font-medium ${isActive
                             ? "bg-white text-[#ff6a6b]"
-                            : "hover:bg-red-400 text-white"
+                            : "hover:bg-red-300 text-white"
                         }`}>
                     <ClipboardList />
                     <span>Vital Task</span>
@@ -131,23 +137,24 @@ const Sidebar = () => {
                 </NavLink>
 
                 <NavLink
-                    to="/my task"
+                    to="/my-task"
                     className={({ isActive }) =>
                         `flex items-center gap-2 p-2 m-2 rounded-lg font-medium ${isActive
                             ? "bg-white text-[#ff6a6b]"
-                            : "hover:bg-white opacity-50% text-white"
+                            : "hover:bg-red-300 text-white"
                         }`}>
                     <ClipboardCheck />
                     <span>My Task</span>
 
                 </NavLink>
 
+
                 <NavLink
-                    to="/task categories"
+                    to="/task-categories"
                     className={({ isActive }) =>
                         `flex items-center gap-2 p-2 m-2 rounded-lg font-medium ${isActive
                             ? "bg-white text-[#ff6a6b]"
-                            : "hover:bg-red-400 text-white"
+                            : "hover:bg-red-300 text-white"
                         }`}>
 
                     <LayoutList />
@@ -159,7 +166,7 @@ const Sidebar = () => {
                     className={({ isActive }) =>
                         `flex items-center gap-2 p-2 m-2 rounded-lg font-medium ${isActive
                             ? "bg-white text-[#ff6a6b]"
-                            : "hover:bg-red-400 text-white"
+                            : "hover:bg-red-300 text-white"
                         }`}>
                     <Settings />
                     <span>Settings</span>
@@ -170,25 +177,28 @@ const Sidebar = () => {
                     className={({ isActive }) =>
                         `flex items-center gap-2 p-2 m-2 rounded-lg font-medium ${isActive
                             ? "bg-white text-[#ff6a6b]"
-                            : "hover:bg-red-400 text-white"
+                            : "hover:bg-red-300 text-white"
                         }`}>
                     <CircleQuestionMark />
                     <span>Help</span>
 
                 </NavLink>
 
+            </nav>
+            <div className="px-4 mt-auto">
+
                 <NavLink
-                    to="/logout"
+                    to="/signin"
                     className={({ isActive }) =>
-                        `flex align-bottom gap-2 p-2 m-2 rounded-lg font-medium ${isActive
+                        `flex items-center align-bottom gap-2 p-2 m-2 rounded-lg font-medium ${isActive
                             ? "bg-white text-[#ff6a6b]"
-                            : "hover:bg-red-400 text-white"
+                            : "hover:bg-red-300 text-white"
                         }`}>
 
                     <LogOut />
                     <span>Logout</span>
                 </NavLink>
-            </nav>
+            </div>
 
         </div>
     )

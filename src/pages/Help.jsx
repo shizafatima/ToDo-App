@@ -1,12 +1,11 @@
 import React from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-import DashboardContent from "../components/DashboardContent";
 
-function Dashboard() {
+function Help() {
     return (
-        <div className="h-screen flex flex-col text-white w-full">
-            <div className="max-w-screen-xl w-full">
+        <div className="h-screen flex flex-col text-white pt-3 max-w-screen-xl w-full">
+            <div className="max-w-screen-xl mx-auto w-full">
                 <Header />
 
             </div>
@@ -16,14 +15,11 @@ function Dashboard() {
             <div className="flex flex-1 min-h-0 overflow-hidden">
                 <Sidebar />
 
-                <div className="flex-1 p-4">
+                <div className="flex-1 overflow-y-auto p-4">
                     {/* Your page content here */}
-                    <DashboardContent/>
                 </div>
             </div>
         </div>
     );
 }
-export default Dashboard
-
-
+export default Help
