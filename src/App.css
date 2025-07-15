@@ -11,6 +11,16 @@
   background-size: cover; */
   background-color: #ff6a6b;
 }
+.half-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 3px;
+  background-color: orange;
+}
+
 
 
 /* .logo {

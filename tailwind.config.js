@@ -6,14 +6,35 @@
 //   },
 //   plugins: [],
 // }
-export default {
+// export default {
+//   content: [
+//     "./index.html",
+//     "./src/**/*.{js,jsx,ts,tsx}",
+//   ],
+//   theme: {
+//     extend: {},
+//   },
+//   plugins: [],
+// }
+
+const tailwindPlugin = require('tailwindcss/plugin');
+const pseudo = require('tailwindcss-pseudo-elements');
+
+module.exports = {
   content: [
-    "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}",
+    './src/**/*.{js,jsx,ts,tsx}', // adjust if needed
   ],
   theme: {
-    extend: {},
+    extend: {
+      content: {
+        empty: '""', // for content-empty
+      },
+    },
   },
-  plugins: [],
+  plugins: [
+    pseudo(), // 👈 correctly invoke the plugin
+    // ... any other plugins
+  ],
 }
+
 
