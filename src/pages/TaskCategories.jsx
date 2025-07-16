@@ -1,21 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Modal from "../components/Modal";
 import { SquarePen, Trash2, Plus } from 'lucide-react';
 
 function TaskCategories() {
-    const [taskStatuses, setTaskStatuses] = useState([
-        { id: 1, label: "Completed" },
-        { id: 2, label: "In Progress" },
-        { id: 3, label: "Not Started" },
-    ]);
+    const [taskStatuses, setTaskStatuses] = useState(() => {
+        const saved = localStorage.getItem("taskStatuses");
+        return saved ? JSON.parse(saved) : [
+            { id: 1, label: "Completed" },
+            { id: 2, label: "In Progress" },
+            { id: 3, label: "Not Started" },
+        ];
+    });
 
-    const [taskPriorities, setTaskPriorities] = useState([
-        { id: 1, label: "Extreme" },
-        { id: 2, label: "Moderate" },
-        { id: 3, label: "Low" },
-    ]);
+    useEffect(() => {
+        localStorage.setItem("taskStatuses", JSON.stringify(taskStatuses));
+    }, [taskStatuses]);
+
+
+    const [taskPriorities, setTaskPriorities] = useState(() => {
+        const saved = localStorage.getItem("taskPriorities");
+        return saved ? JSON.parse(saved) : [
+            { id: 1, label: "Extreme" },
+            { id: 2, label: "Moderate" },
+            { id: 3, label: "Low" },
+        ];
+    });
+
+    useEffect(() => {
+        localStorage.setItem("taskPriorities", JSON.stringify(taskPriorities));
+    }, [taskPriorities]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalType, setModalType] = useState("");
@@ -25,7 +40,7 @@ function TaskCategories() {
 
     // Task Status Handling 
     const handleAddStatus = () => {
-        setModalType("add-status");
+        setModalType("add-task-status");
         setInputValue("");
         setEditingId(null);
         setIsModalOpen(true);
@@ -47,7 +62,7 @@ function TaskCategories() {
     // Task Priority Handling 
 
     const handleAddPriority = () => {
-        setModalType("add-priority");
+        setModalType("add-task-priority");
         setInputValue("");
         setEditingId(null);
         setIsModalOpen(true);
@@ -71,14 +86,14 @@ function TaskCategories() {
     const handleModalSubmit = () => {
         if (!inputValue.trim()) return;
 
-        if (modalType === "add-status") {
+        if (modalType === "add-task-status") {
             const newItem = { id: Date.now(), label: inputValue };
             setTaskStatuses(prev => [...prev, newItem]);
         } else if (modalType === "edit-status") {
             setTaskStatuses(prev =>
                 prev.map(item => item.id === editingId ? { ...item, label: inputValue } : item)
             )
-        } else if (modalType === "add-priority") {
+        } else if (modalType === "add-task-priority") {
             const newItem = { id: Date.now(), label: inputValue };
             setTaskPriorities(prev => [...prev, newItem]);
         } else if (modalType === "edit-priority") {
@@ -92,18 +107,6 @@ function TaskCategories() {
         setEditingId(null);
         setInputValue("");
     };
-
-    // {
-    //     isModalOpen && (
-    //         <Modal
-    //             title={`${modalType.includes("add") ? "Add" : "Edit"} ${modalType.includes("status") ? "Task Status" : "Task Priority"}`}
-    //             inputValue={inputValue}
-    //             setInputValue={setInputValue}
-    //             onClose={() => setIsModalOpen(false)}
-    //             onSubmit={handleModalSubmit}
-    //         />
-    //     )
-    // }
     return (
         <div className="h-screen flex flex-col text-white w-full">
             <div className="max-w-screen-xl w-full">
@@ -120,8 +123,16 @@ function TaskCategories() {
                     {/* Your page content here */}
                     {
                         isModalOpen && (
+                            console.log("Modal Type:", modalType),
                             <Modal
-                                title={`${modalType.includes("add") ? "Add" : "Edit"} ${modalType.includes("status") ? "Task Status" : "Task Priority"}`}
+
+                                title={
+                                    modalType === "add-task-status" ? "Add Task Status" :
+                                        modalType === "edit-status" ? "Edit Task Status" :
+                                            modalType === "add-task-priority" ? "Add Task Priority" :
+                                                modalType === "edit-priority" ? "Edit Task Priority" :
+                                                    "Add Task"
+                                }
                                 inputValue={inputValue}
                                 setInputValue={setInputValue}
                                 onClose={() => setIsModalOpen(false)}
@@ -132,15 +143,15 @@ function TaskCategories() {
                     <div className="border border-gray-100 h-full shadow-lg shadow-gray-400 rounded-xl">
                         <div className="text-left">
                             <h2 className="text-black ml-6 mt-4 font-semibold text-2xl"> <span className="w-1/2 h-5 underline decoration-orange-600 decoration-2 underline-offset-8">Task </span>Categories</h2>
-                            <button className="bg-orange-600 text-white ml-6 mt-4 px-2 py-1 rounded-md">Add Category</button>
+                            {/* <button className="bg-orange-600 text-white ml-6 mt-4 px-2 py-1 rounded-md">Add Category</button> */}
                         </div>
                         <div>
                             <div className="flex justify-between items-center px-6 mt-8">
                                 <h3 className="text-black font-medium text-sm text-left text-md">
                                     <span className="underline decoration-orange-600 decoration-2 underline-offset-8">Task</span> Status
                                 </h3>
-                                <button className="flex justify-items-left gap-1 bg-transparent text-gray-500 px-2 py-2 rounded-md text-sm" onClick={() => handleEditStatus(item.id)}>
-                                    <Plus size={15} stroke="orange" fill="none" /> Add Task Status
+                                <button className="flex justify-items-left gap-1 bg-transparent text-gray-500 px-2 py-2 rounded-md text-sm" onClick={handleAddStatus} >
+                                    <Plus size={15} className="text-orange-600" /> Add Task Status
                                 </button>
 
                             </div>
@@ -189,8 +200,8 @@ function TaskCategories() {
                                 <h3 className="text-black font-medium text-sm text-left text-md">
                                     <span className="underline decoration-orange-600 decoration-2 underline-offset-8">Task</span> Priority
                                 </h3>
-                                <button className="flex justify-items-left gap-1 bg-transparent text-gray-500 px-2 py-2 rounded-md text-sm" onClick={() => handleEditStatus(item.id)}>
-                                    <Plus size={15} stroke="orange" fill="none" /> Add Task Priority
+                                <button className="flex justify-items-left gap-1 bg-transparent text-gray-500 px-2 py-2 rounded-md text-sm" onClick={handleAddPriority}>
+                                    <Plus size={15} className="text-orange-600" /> Add Task Priority
                                 </button>
 
                             </div>

@@ -10,6 +10,7 @@ import TaskCategories from './pages/TaskCategories';
 import Settings from './pages/Settings';
 import Help from './pages/Help';
 import { TaskProvider } from './components/TaskContext';
+import { TaskMetaProvider } from './components/TaskMetaContext';
 
 
 
@@ -18,22 +19,24 @@ function App() {
   return (
     <Router>
       <TaskProvider>
-        <div className='min-h-screen w-full overflow-hidden'>
-          <Routes>
-            <Route path="/" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="*" element={<SignUp />} /> {/* fallback */}
+        <TaskMetaProvider>
+          <div className='min-h-screen w-full overflow-hidden'>
+            <Routes>
+              <Route path="/" element={<SignUp />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="*" element={<SignUp />} /> {/* fallback */}
 
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/vital-task" element={<VitalTask />} />
-            <Route path="/my-task" element={<MyTask />} />
-            <Route path="/task-categories" element={<TaskCategories />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/vital-task" element={<VitalTask />} />
+              <Route path="/my-task" element={<MyTask />} />
+              <Route path="/task-categories" element={<TaskCategories />} />
 
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/help" element={<Help />} />
-          </Routes>
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/help" element={<Help />} />
+            </Routes>
 
-        </div>
+          </div>
+        </TaskMetaProvider>
       </TaskProvider>
     </Router>
   )

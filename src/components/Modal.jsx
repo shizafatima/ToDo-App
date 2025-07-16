@@ -4,7 +4,7 @@ function Modal({title, inputValue, setInputValue, onClose, onSubmit}){
     return (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">Add Task</h2>
+                <h2 className="text-lg font-semibold text-gray-800 mb-4">{title}</h2>
                 <input 
                 type="text"
                 className="w-full border border-gray-300 px-3 py-2 rounded-md mb-4 text-black"
