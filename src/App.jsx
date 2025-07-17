@@ -24,7 +24,6 @@ function App() {
             <Routes>
               <Route path="/" element={<SignUp />} />
               <Route path="/signin" element={<SignIn />} />
-              <Route path="*" element={<SignUp />} /> {/* fallback */}
 
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/vital-task" element={<VitalTask />} />
@@ -33,6 +32,7 @@ function App() {
 
               <Route path="/settings" element={<Settings />} />
               <Route path="/help" element={<Help />} />
+              <Route path="*" element={<SignUp />} /> {/* fallback */}
             </Routes>
 
           </div>

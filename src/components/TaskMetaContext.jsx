@@ -7,14 +7,14 @@ export const TaskMetaProvider = ({ children }) => {
         { id: 1, label: "Not Started", color: "red" },
         { id: 2, label: "In Progress", color: "blue" },
         { id: 3, label: "Completed", color: "green" },
-    ]);
+    ], []);
 
     const [taskPriorities, setTaskPriorities] = useState([
         { id: 1, label: "Extreme", color: "red" },
         { id: 2, label: "Moderate", color: "blue" },
         { id: 3, label: "Low", color: "Green" },
 
-    ]);
+    ], []);
 
 
     return (

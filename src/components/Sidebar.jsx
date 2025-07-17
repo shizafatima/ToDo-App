@@ -91,8 +91,7 @@ const Sidebar = () => {
                 {avatarDisplay}
                 <p className="text-sm font-medium mb-1 font-mono">
                     {/* {user.userName || "User"} */}
-                    {user.firstName || "Firstname"}
-                    {user.lastName || "LastName"}
+                    {`${user.firstName || "Firstname"} ${user.lastName || "LastName"}`}
                 </p>
                 <p className="text-xs font-normal mt-0 font-sans underline decoration-solid ">
                     {user.email || "example@gmail.com"}

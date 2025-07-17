@@ -34,7 +34,7 @@ function DashboardContent() {
         if (storedUser) {
             setUser(storedUser)
         }
-    })
+    }, []);
     const { tasks, addTask, editTask, deleteTask } = useTasks();
 
     const statuses = [
@@ -44,10 +44,10 @@ function DashboardContent() {
     ];
     return (
 
-        <div className="flex-1 bg-white text-black p-6">
+        <div className="flex-1 bg-white text-black p-4 sm:p-6">
             {showModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-                    <div className="bg-white p-6 rounded-xl w-full max-w-lg shadow-lg relative">
+                    <div className="bg-white p-4 sm:p-6 rounded-xl w-[95%] sm:w-full max-w-lg shadow-lg relative">
                         <h2 className="text-xl font-semibold mb-4">Add New Task</h2>
                         <div className="grid grid-cols-1 gap-4">
                             <input
@@ -124,7 +124,7 @@ function DashboardContent() {
                 </div>
             )}
             <div className="flex justify-between items-center px-6 mt-8">
-                <h1 className="text-3xl text-left font-bold mb-4">Welcome Back, {user.firstName || "User"}</h1>
+                <h1 className="text-2xl sm:text-3xl text-left font-bold mb-4">Welcome Back, {user.firstName || "User"}</h1>
                 <button
                     onClick={() => setShowModal(true)}
                     className="flex justify-items-left gap-1 bg-transparent text-gray-500 px-2 py-2 rounded-md text-sm"
@@ -132,7 +132,7 @@ function DashboardContent() {
                     <Plus size={15} className="text-orange-600" /> Add New Task
                 </button>
             </div>
-            <div className="border border-gray-400 h-full grid grid-cols-2 gap-4 p-4">
+            <div className="border border-gray-400 h-full grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
                 <div>
                     <h4 className="text-red-400 text-left ml-5 font-medium flex"><FileClock className="text-gray-400 mr-2" /> To Do</h4>
                     {tasks
@@ -159,7 +159,7 @@ function DashboardContent() {
                 <div className="flex flex-col gap-4">
                     <div>
                         <h2 className="text-left text-red-400 ml-5 font-medium flex"> <FileCheck2 className="text-gray-400 mr-2" /> Task Status</h2>
-                        <div className="flex gap-1 justify-start mt-2 shadow-md rounded-lg m-5 p-5">
+                        <div className="flex flex-col md:flex-row gap-1 justify-start mt-2 shadow-md rounded-lg m-2 p-4">
 
                             {statuses.map((s, i) => (
                                 <TaskStatus key={i} {...s} />
