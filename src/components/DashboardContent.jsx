@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, } from "react";
 import { FileClock, FileCheck2, FileCheck, Plus } from 'lucide-react';
 import TaskCard from "./TaskCard";
 import TaskStatus from "./TaskStatus";
 import { useTasks } from "./TaskContext";
 import { useTaskMeta } from "./TaskMetaContext";
+import Modal from "./Modal";
 
 function DashboardContent() {
 
@@ -26,6 +27,8 @@ function DashboardContent() {
         }));
     };
 
+    const [isEditing, setIsEditing] = useState(false);
+    const [editingTaskId, setEditingTaskId] = useState(null);
 
 
     const [user, setUser] = useState({});
@@ -35,7 +38,7 @@ function DashboardContent() {
             setUser(storedUser)
         }
     }, []);
-    const { tasks, addTask, editTask, deleteTask } = useTasks();
+    const { tasks, filteredTasks, addTask, editTask, deleteTask } = useTasks();
 
     const statuses = [
         { status: "Completed", color: "green", label: "Completed" },
@@ -46,82 +49,46 @@ function DashboardContent() {
 
         <div className="flex-1 bg-white text-black p-4 sm:p-6">
             {showModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-                    <div className="bg-white p-4 sm:p-6 rounded-xl w-[95%] sm:w-full max-w-lg shadow-lg relative">
-                        <h2 className="text-xl font-semibold mb-4">Add New Task</h2>
-                        <div className="grid grid-cols-1 gap-4">
-                            <input
-                                type="text"
-                                name="title"
-                                value={newTask.title}
-                                onChange={handleInputChange}
-                                placeholder="Title"
-                                className="border p-2 rounded" />
+                <Modal
+                    title={isEditing ? "Edit Task" : "Add New Task"}
+                    newTask={newTask}
+                    setNewTask={setNewTask}
+                    onClose={() => {
+                        setShowModal(false);
+                        setIsEditing(false);
+                        setEditingTaskId(null);
+                    }}
 
-                            <input
-                                type="text"
-                                name="desc"
-                                value={newTask.desc}
-                                onChange={handleInputChange}
-                                placeholder="Add description.."
-                                className="border p-2 rounded" />
+                    onSubmit={() => {
+                        if (!newTask.title || !newTask.desc) return;
 
-                            <input
-                                type="text"
-                                name="date"
-                                value={newTask.date}
-                                onChange={handleInputChange}
-                                placeholder="add date"
-                                className="border p-2 rounded" />
-                            <select
-                                name="status"
-                                value={newTask.status}
-                                onChange={handleInputChange}
-                                className="border p-2 rounded"
-                            >
-                                {taskStatuses.map((item) => (
-                                    <option key={item.id} value={item.label}>
-                                        {item.label}
-                                    </option>
-                                ))}
-                            </select>
-                            <select
-                                name="priority"
-                                value={newTask.priority}
-                                onChange={handleInputChange}
-                                className="border p-2 rounded"
-                            >
-                                {taskPriorities.map((item) => (
-                                    <option key={item.id} value={item.label}>
-                                        {item.label}
-                                    </option>
-                                ))}
-                            </select>
+                        if (isEditing) {
+                            editTask(editingTaskId, newTask);
+                        } else {
+                            const id = Date.now();
+                            addTask({ id, ...newTask });
+                        }
 
-                            <div className="flex justify-end gap-2 mt-2">
-                                <button
-                                    onClick={() => setShowModal(false)}
-                                    className="px-3 py-1 bg-gray-400 text-black rounded-md hover:bg-gray-300">Cancel</button>
-                                    
-                                <button
-                                    onClick={() => {
-                                        if (!newTask.title || !newTask.desc) return;
-                                        const id = Date.now();
-                                        addTask({ id, ...newTask });
-                                        setNewTask({ title: "", desc: "", priority: "Moderate", status: "Not Started", date: "" });
-                                        setShowModal(false);
-                                    }}
-                                    className="px-3 py-1 bg-orange-600 rounded-md hover:bg-orange-700">
-                                    Add Task
+                        setNewTask({
+                            title: "",
+                            desc: "",
+                            priority: taskPriorities?.[1].label || "Low",
+                            status: taskStatuses?.[0].label || "Not Started",
+                            date: "",
 
-                                </button>
-                            </div>
+                        });
 
+                        setShowModal(false);
+                        setIsEditing(false);
+                        setEditingTaskId(null);
+                    }}
 
+                    isEditing={isEditing}
+                    taskStatuses={taskStatuses}
+                    taskPriorities={taskPriorities}
 
-                        </div>
-                    </div>
-                </div>
+                />
+
             )}
             <div className="flex justify-between items-center px-6 mt-8">
                 <h1 className="text-2xl sm:text-3xl text-left font-bold mb-4">Welcome Back, {user.firstName || "User"}</h1>
@@ -135,7 +102,7 @@ function DashboardContent() {
             <div className="border border-gray-400 h-full grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
                 <div>
                     <h4 className="text-red-400 text-left ml-5 font-medium flex"><FileClock className="text-gray-400 mr-2" /> To Do</h4>
-                    {tasks
+                    {filteredTasks
                         .filter(task => task.status !== "Completed")
                         .map((task) => (
                             <div className="m-2" key={task.id}>
@@ -146,7 +113,15 @@ function DashboardContent() {
                                     status={task.status}
                                     date={task.date}
                                     onEdit={() => {
-                                        setNewTask(task); // preload the task in modal
+                                        setIsEditing(true);
+                                        setEditingTaskId(task.id)
+                                        setNewTask({
+                                            title: task.title,
+                                            desc: task.desc,
+                                            priority: task.priority,
+                                            status: task.status,
+                                            date: task.date
+                                        }); // preload the task in modal
                                         setShowModal(true);
                                     }}
                                     onDelete={() => deleteTask(task.id)}
@@ -171,7 +146,7 @@ function DashboardContent() {
                     {/* completed task */}
                     <div >
                         <h4 className="text-left text-red-400 ml-5 font-medium flex"><FileCheck className="text-gray-400 mr-2" />Completed Tasks</h4>
-                        {tasks
+                        {filteredTasks
                             .filter(task => task.status === "Completed")
                             .map(task => (
                                 <div className="m-2" key={task.id}>
@@ -182,7 +157,15 @@ function DashboardContent() {
                                         status={task.status}
                                         date={task.date}
                                         onEdit={() => {
-                                            setNewTask(task); // preload the task in modal
+                                            setIsEditing(true);
+                                            setEditingTaskId(task.id);
+                                            setNewTask({
+                                                title: task.title,
+                                                desc: task.desc,
+                                                priority: task.priority,
+                                                status: task.status,
+                                                date: task.date,
+                                            });
                                             setShowModal(true);
                                         }}
                                         onDelete={() => deleteTask(task.id)}
