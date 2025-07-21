@@ -11,13 +11,24 @@ export const TaskProvider = ({ children }) => {
 
     // notifactions handling 
 
-    const [notifications, setNotifications] = useState([]);
+    const [notifications, setNotifications] = useState(() => {
+        const stored = localStorage.getItem("notifications");
+        return stored ? JSON.parse(stored) : [];
+    });
+
+    useEffect(() => {
+        localStorage.setItem("notifications", JSON.stringify(notifications));
+    }, [notifications]);
 
     const addNotification = (message) => {
         const id = Date.now();
         const timestamp = new Date();
         const newNote = { id, message, timestamp };
         setNotifications(prev => [newNote, ...prev.slice(0, 4)]);
+
+        // setTimeout(() => {
+        //     setNotifications((prev) => prev.filter((note) => note.id !== id))
+        // }, 5000);
     };
     const [filteredTasks, setFilteredTasks] = useState(tasks);
 
@@ -57,10 +68,10 @@ export const TaskProvider = ({ children }) => {
     }
 
 
-return (
-    <TaskContext.Provider value={{ tasks, setTasks, addTask, editTask, deleteTask, filteredTasks, filterTasksByQuery, notifications, addNotification }}>
-        {children}
-    </TaskContext.Provider>
-);
+    return (
+        <TaskContext.Provider value={{ tasks, setTasks, addTask, editTask, deleteTask, filteredTasks, filterTasksByQuery, notifications, addNotification }}>
+            {children}
+        </TaskContext.Provider>
+    );
 };
 

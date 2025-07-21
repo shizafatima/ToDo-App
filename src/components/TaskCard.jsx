@@ -1,8 +1,8 @@
 import React from "react";
-import { SquarePen, Trash2} from 'lucide-react';
+import { SquarePen, Trash2 } from 'lucide-react';
 
 
-const TaskCard = ({ title, desc, status, date, priority, completed = false, onEdit, onDelete }) => {
+const TaskCard = ({ title, desc, status, date, priority, completed = false, onEdit, onDelete, dueInDays }) => {
     const statusColor = {
         "Not Started": "text-red-500",
         "In Progress": "text-blue-500",
@@ -18,7 +18,7 @@ const TaskCard = ({ title, desc, status, date, priority, completed = false, onEd
             <div className="flex-1 text-left ml-4 mt-2">
                 <div className="flex justify-end gap-2 mt-2">
                     <button className="flex items-center gap-1 bg-red-400 text-white px-2 py-2 rounded-md hover:bg-orange-700 text-sm" onClick={onEdit}>
-                        <SquarePen size={15} stroke="white" fill="none" /> 
+                        <SquarePen size={15} stroke="white" fill="none" />
                     </button>
                     <button className="flex items-center gap-1 bg-red-400 text-white px-3 py-1 rounded-md hover:bg-orange-700 text-sm" onClick={onDelete}>
                         <Trash2 size={15} />

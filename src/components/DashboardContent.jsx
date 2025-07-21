@@ -27,6 +27,8 @@ function DashboardContent() {
         }));
     };
 
+
+
     const [isEditing, setIsEditing] = useState(false);
     const [editingTaskId, setEditingTaskId] = useState(null);
 
@@ -38,7 +40,21 @@ function DashboardContent() {
             setUser(storedUser)
         }
     }, []);
-    const { tasks, filteredTasks, addTask, editTask, deleteTask } = useTasks();
+    const { tasks, filteredTasks, addTask, editTask, deleteTask, addNotification } = useTasks();
+    useEffect(() => {
+        const today = new Date();
+        tasks.forEach(task => {
+            if (!task.date) return;
+
+            const dueDate = new Date(task.date);
+            const diffDays = Math.floor((dueDate - today) / (1000 * 60 * 60 * 24));
+
+            if (diffDays === 2) {
+                addNotification(`Task "${task.title}" is due in 2 days`)
+            }
+
+        });
+    }, [tasks])
 
     const statuses = [
         { status: "Completed", color: "green", label: "Completed" },
@@ -48,6 +64,7 @@ function DashboardContent() {
     return (
 
         <div className="flex-1 bg-white text-black p-4 sm:p-6">
+
             {showModal && (
                 <Modal
                     title={isEditing ? "Edit Task" : "Add New Task"}
@@ -64,9 +81,11 @@ function DashboardContent() {
 
                         if (isEditing) {
                             editTask(editingTaskId, newTask);
+                            addNotification(`Task "${newTask.title}" was updated`)
                         } else {
                             const id = Date.now();
                             addTask({ id, ...newTask });
+                            addNotification(`nEW TASK "${newTask.title}" was added`)
                         }
 
                         setNewTask({
@@ -112,6 +131,7 @@ function DashboardContent() {
                                     priority={task.priority}
                                     status={task.status}
                                     date={task.date}
+                                    
                                     onEdit={() => {
                                         setIsEditing(true);
                                         setEditingTaskId(task.id)
@@ -156,6 +176,9 @@ function DashboardContent() {
                                         priority={task.priority}
                                         status={task.status}
                                         date={task.date}
+                                        
+                            
+
                                         onEdit={() => {
                                             setIsEditing(true);
                                             setEditingTaskId(task.id);
