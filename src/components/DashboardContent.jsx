@@ -19,13 +19,13 @@ function DashboardContent() {
         date: "",
     });
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewTask((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
+    // const handleInputChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setNewTask((prev) => ({
+    //         ...prev,
+    //         [name]: value,
+    //     }));
+    // };
 
 
 
