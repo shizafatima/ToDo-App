@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 
-const Header = ({onMenuClick}) => {
+const Header = ({ onMenuClick }) => {
 
     const [currentDate, setCurrentDate] = useState("");
 
@@ -43,11 +43,11 @@ const Header = ({onMenuClick}) => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between px-6 py-4 bg-white shadow w-screen items-baseline">
             {/* logo */}
             <div className="flex items-center gap-1 text-2xl font-bold">
-            <button 
-            onClick={onMenuClick}
-            className="px-1 py-3 text-red-400 rounded-r-lg bg-transparent  xl:hidden ">
-                <Menu size={24} />
-            </button>
+                <button
+                    onClick={onMenuClick}
+                    className="px-1 py-3 text-red-400 rounded-r-lg bg-transparent  xl:hidden ">
+                    <Menu size={24} />
+                </button>
                 <span className="text-red-400 ">Dash</span>
                 <span className="text-black ">board</span>
             </div>
@@ -84,10 +84,8 @@ const Header = ({onMenuClick}) => {
                                 <li>No notifications</li>
                             ) : (
                                 notifications.map(note => (
-                                    <li key={note.id} className="mb-2">{note.message}
-                                        <span className="ml-2 text-gray-500 text-sm">
-                                            {new Date(note.timestamp).toLocaleTimeString()}
-                                        </span>
+                                    <li key={note.id} className="mb-2"> <div className="font-medium">{note.message}</div>
+                                        <div className="text-gray-500 text-xs">{note.formattedDate}</div>
                                     </li>
 
                                 ))

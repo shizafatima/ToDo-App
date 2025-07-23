@@ -23,7 +23,16 @@ export const TaskProvider = ({ children }) => {
     const addNotification = (message) => {
         const id = Date.now();
         const timestamp = new Date();
-        const newNote = { id, message, timestamp };
+
+        const formattedDate = timestamp.toLocaleString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+    });
+        const newNote = { id, message, formattedDate };
         setNotifications(prev => [newNote, ...prev.slice(0, 4)]);
 
         // setTimeout(() => {

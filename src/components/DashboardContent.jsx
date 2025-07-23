@@ -85,7 +85,7 @@ function DashboardContent() {
                         } else {
                             const id = Date.now();
                             addTask({ id, ...newTask });
-                            addNotification(`nEW TASK "${newTask.title}" was added`)
+                            addNotification(`New Task "${newTask.title}" was added`)
                         }
 
                         setNewTask({
