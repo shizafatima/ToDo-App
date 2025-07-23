@@ -48,8 +48,8 @@ const Header = ({onMenuClick}) => {
             className="px-1 py-3 text-red-400 rounded-r-lg bg-transparent  xl:hidden ">
                 <Menu size={24} />
             </button>
-                <span className="text-red-400 ">Dash</span>
-                <span className="text-black ">board</span>
+                <span className="text-red-400 ">To</span>
+                <span className="text-black ">Do</span>
             </div>
 
             {/*search bar*/}

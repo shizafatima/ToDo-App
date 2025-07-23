@@ -118,7 +118,7 @@ function DashboardContent() {
                     <Plus size={15} className="text-orange-600" /> Add New Task
                 </button>
             </div>
-            <div className="border border-gray-400 h-full grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+            <div className="border border-gray-400 h-full grid grid-cols-1 md:grid-cols-2 gap-2 p-4">
                 <div>
                     <h4 className="text-red-400 text-left ml-5 font-medium flex"><FileClock className="text-gray-400 mr-2" /> To Do</h4>
                     {filteredTasks
@@ -153,8 +153,8 @@ function DashboardContent() {
 
                 <div className="flex flex-col gap-4">
                     <div>
-                        <h2 className="text-left text-red-400 ml-5 font-medium flex"> <FileCheck2 className="text-gray-400 mr-2" /> Task Status</h2>
-                        <div className="flex flex-col md:flex-row gap-1 justify-start mt-2 shadow-md rounded-lg m-2 p-4">
+                        <h2 className="text-left text-red-400 ml-5 font-medium flex"> <FileCheck2 className="text-gray-400 mr-2 " /> Task Status</h2>
+                        <div className="flex flex-col xl:flex-row gap-4 justify-around mt-2 shadow-md rounded-xl m-2 p-6">
 
                             {statuses.map((s, i) => (
                                 <TaskStatus key={i} {...s} />

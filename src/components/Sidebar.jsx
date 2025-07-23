@@ -85,7 +85,7 @@ const Sidebar = () => {
         );
     }
     return (
-        <div className="w-64 h-full bg-[#ff6a6b] text-white flex flex-col py-6 shadow-lg rounded-r-lg">
+        <div className="w-64 h-full bg-[#ff6a6b] text-white flex flex-col py-6 shadow-lg rounded-r-lg overflow-auto">
             <div className="flex flex-col items-center mb-6">
 
                 {avatarDisplay}

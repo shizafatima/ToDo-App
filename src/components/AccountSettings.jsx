@@ -1,5 +1,5 @@
-import { div, p } from "framer-motion/client";
 import React, { useState, useEffect } from "react";
+import { Eye, EyeOff } from 'lucide-react';
 
 
 function AccountSettings() {
@@ -12,20 +12,59 @@ function AccountSettings() {
     const [passwordSuccess, setPasswordSuccess] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     useEffect(() => {
-        const savedUsername = localStorage.getItem("username") || "User";
-        setUserName(savedUsername);
+        if (newPassword && confirmPassword && newPassword === confirmPassword) {
+            setPasswordError("");
+        }
+    }, [newPassword, confirmPassword]);
+
+    useEffect(() => {
+        if (userNameSuccess) {
+            const timeout = setTimeout(() => {
+                setUserNameSuccess("");
+            }, 3000);
+            return () => clearTimeout(timeout);
+        }
+
+        if (passwordSuccess) {
+            const timeout = setTimeout(() => {
+                setPasswordSuccess("");
+            }, 3000);
+            return () => clearTimeout(timeout);
+        }
+
+
+    }, [userNameSuccess, passwordSuccess]);
+
+
+    const [user, setUser] = useState(() => {
+
+        return JSON.parse(localStorage.getItem("userData")) || {};
+    });
+
+    useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem("userData"));
+        if (storedUser && storedUser.userName) {
+            setUserName(storedUser.userName);
+            // setUser(storedUser); // Optional: keep `user` state in sync
+        }
     }, []);
+
 
     // update username 
     const handleUserNameChange = (e) => {
         e.preventDefault();
-        if (!newUserName.trim()) {
-            setUserNameError("Username can not be empty.");
-            return;
-        }
-        localStorage.setItem("username", newUserName);
+        // if (!newUserName.trim()) {
+        //     setUserNameError("Username can not be empty.");
+        //     return;
+        // }
+        const updatedUser = { ...user, userName: newUserName };
+        localStorage.setItem("userData", JSON.stringify(updatedUser));
+        // localStorage.setItem("username", newUserName);
+        setUser(updatedUser)
         setUserName(newUserName);
         setNewUserName("");
         setUserNameSuccess("Username updated.");
@@ -33,9 +72,17 @@ function AccountSettings() {
     };
 
 
+
+
     const passwordRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
     const handlePasswordChange = (e) => {
         e.preventDefault();
+
+        // if (!newPassword.trim() || !confirmPassword.trim()) {
+        //     setPasswordError("Password fields cannot be empty.");
+        //     setPasswordSuccess("");
+        //     return;
+        // }
 
         if (!passwordRegEx.test(newPassword)) {
             setPasswordError("Password must be at least 8 characters and include uppercase, lowercase, number, and special character.");
@@ -51,7 +98,7 @@ function AccountSettings() {
         console.log("New Password:", newPassword);
         setNewPassword("");
         setConfirmPassword("");
-        
+        setConfirmPasswordError("");
         setPasswordSuccess("Password changed successfully.");
         setPasswordError("")
     }
@@ -64,6 +111,9 @@ function AccountSettings() {
             <form onSubmit={handleUserNameChange} className="space-y-2">
                 <h3 className="text-xl font-semibold mt-4 mb-4 flex items-center gap-2 text-black underline underline-offset-2">Change Username</h3>
 
+                <p className="text-sm text-gray-600 mb-1">
+                    Current Username: <span className="font-medium text-black">{userName}</span>
+                </p>
                 <input
                     type="text"
                     placeholder="Enter new username"
@@ -75,9 +125,10 @@ function AccountSettings() {
                     <p className="text-sm font-bold text-left text-red-600">{userNameError}</p>
                 )}
                 {userNameSuccess && (
-                    <p className="text-sm font-bold text-left text-green-600">{userNameSuccess}</p>
+                    <p className="text-sm font-bold text-left text-green-600 ">{userNameSuccess}</p>
                 )}
-                <button onClick={handleUserNameChange} className="bg-red-400 text-white px-4 py-2 rounded">
+                <button className="bg-red-400 text-white px-4 py-2 rounded disabled:opacity-50"
+                disabled={!newUserName.trim()}>
                     Update Username
 
                 </button>
@@ -89,33 +140,52 @@ function AccountSettings() {
             <form onSubmit={handlePasswordChange} className="space-y-2">
                 <h3 className="text-xl font-semibold mt-4 mb-4 flex items-center gap-2 text-black underline underline-offset-2">Change Password</h3>
 
-                <input
-                    type="password"
-                    placeholder="Enter new password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full p-2 border rounded text-black" />
-                {passwordError && (
-                    <p className="text-sm font-bold text-left text-red-600">{passwordError}</p>
-                )}
-                {passwordSuccess && (
-                    <p className="text-sm font-bold text-left text-green-600">{passwordSuccess}</p>
-                )}
+                <div className="relative">
 
-                <input
-                    type="password"
-                    placeholder="Confirm Password"
-                    value={newPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full p-2 border rounded text-black" />
+                    <input
+                        type={showNewPassword ? "text" : "password"}
+                        placeholder="Enter new password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        className="w-full p-2 border rounded text-black" />
+
+                    <span
+                        className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                        onClick={() => setShowNewPassword(!showNewPassword)}
+                    >
+                        {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </span>
+                </div>
 
                 {passwordError && (
                     <p className="text-sm font-bold text-left text-red-600">{passwordError}</p>
                 )}
+
+                <div className="relative">
+
+                    <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        placeholder="Confirm Password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        className="w-full p-2 border rounded text-black" />
+
+                    <span
+                        className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    >
+                        {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </span>
+                </div>
+
+                {confirmPasswordError && (
+                    <p className="text-sm font-bold text-left text-red-600">{confirmPasswordError}</p>
+                )}
                 {passwordSuccess && (
                     <p className="text-sm font-bold text-left text-green-600">{passwordSuccess}</p>
                 )}
-                <button onClick={handlePasswordChange} className="bg-red-400 text-white px-4 py-2 rounded">
+                <button className="bg-red-400 text-white px-4 py-2 rounded disabled:opacity-50"
+                disabled={!newPassword.trim() || !confirmPassword.trim()}>
                     Change Password
 
                 </button>

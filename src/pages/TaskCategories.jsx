@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Header from "../components/Header";
+import Header2 from "../components/Header2";
 import Sidebar from "../components/Sidebar";
 import Modal from "../components/Modal";
 import { SquarePen, Trash2, Plus } from 'lucide-react';
 
 function TaskCategories() {
+
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [taskStatuses, setTaskStatuses] = useState(() => {
         const saved = localStorage.getItem("taskStatuses");
         return saved ? JSON.parse(saved) : [
@@ -110,16 +112,28 @@ function TaskCategories() {
     return (
         <div className="h-screen flex flex-col text-white w-full">
             <div className="max-w-screen-xl w-full">
-                <Header />
+                <Header2 onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
 
             </div>
 
 
             {/* Main content area */}
-            <div className="flex flex-1 min-h-0 overflow-hidden">
-                <Sidebar />
+            <div className="flex flex-1 min-h-0 overflow-hidden relative">
 
-                <div className="flex-1 p-4">
+                <div className={`absolute z-20 h-full transition-transform duration-300 
+                    ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
+                    xl:relative xl:translate-x-0 xl:block absolute`}>
+                    <Sidebar />
+                </div>
+
+                {isSidebarOpen && (
+                    <div
+                        className="fixed inset-0 bg-black bg-opacity-50 z-10 xl:hidden overflow-auto"
+                        onClick={() => setIsSidebarOpen(false)}
+                    />
+                )}
+
+                <div className="flex-1 overflow-auto flex flex-col">
                     {/* Your page content here */}
                     {
                         isModalOpen && (
@@ -140,7 +154,7 @@ function TaskCategories() {
                             />
                         )
                     }
-                    <div className="border border-gray-100 h-full shadow-lg shadow-gray-400 rounded-xl">
+                    <div className="border border-gray-100 shadow-lg shadow-gray-400 rounded-xl w-full mt-4">
                         <div className="text-left">
                             <h2 className="text-black ml-6 mt-4 font-semibold text-2xl"> <span className="w-1/2 h-5 underline decoration-orange-600 decoration-2 underline-offset-8">Task </span>Categories</h2>
                             {/* <button className="bg-orange-600 text-white ml-6 mt-4 px-2 py-1 rounded-md">Add Category</button> */}
