@@ -135,24 +135,31 @@ function TaskCategories() {
 
                 <div className="flex-1 overflow-auto flex flex-col">
                     {/* Your page content here */}
-                    {
-                        isModalOpen && (
-                            console.log("Modal Type:", modalType),
-                            <Modal
+                    {isModalOpen && (
+                        <Modal
+                            mode="category"
 
-                                title={
-                                    modalType === "add-task-status" ? "Add Task Status" :
-                                        modalType === "edit-status" ? "Edit Task Status" :
-                                            modalType === "add-task-priority" ? "Add Task Priority" :
-                                                modalType === "edit-priority" ? "Edit Task Priority" :
-                                                    "Add Task"
-                                }
-                                inputValue={inputValue}
-                                setInputValue={setInputValue}
-                                onClose={() => setIsModalOpen(false)}
-                                onSubmit={handleModalSubmit}
-                            />
-                        )
+                            title={
+                                modalType === "add-task-status" ? "Add Task Status" :
+                                    modalType === "edit-status" ? "Edit Task Status" :
+                                        modalType === "add-task-priority" ? "Add Task Priority" :
+                                            modalType === "edit-priority" ? "Edit Task Priority" : ""
+                            }
+
+                            buttonLabel={
+                                modalType === "add-task-status" ? "Add Status" :
+                                    modalType === "edit-status" ? "Update Status" :
+                                        modalType === "add-task-priority" ? "Add Priority" :
+                                            modalType === "edit-priority" ? "Update Priority" :
+                                                ""
+                            }
+                            inputValue={inputValue}
+                            setInputValue={setInputValue}
+                            isEditing={modalType.includes("edit")}
+                            onClose={() => setIsModalOpen(false)}
+                            onSubmit={handleModalSubmit}
+                        />
+                    )
                     }
                     <div className="border border-gray-100 shadow-lg shadow-gray-400 rounded-xl w-full mt-4">
                         <div className="text-left">

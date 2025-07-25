@@ -67,6 +67,7 @@ function DashboardContent() {
 
             {showModal && (
                 <Modal
+                    mode="task"
                     title={isEditing ? "Edit Task" : "Add New Task"}
                     newTask={newTask}
                     setNewTask={setNewTask}
@@ -131,7 +132,7 @@ function DashboardContent() {
                                     priority={task.priority}
                                     status={task.status}
                                     date={task.date}
-                                    
+
                                     onEdit={() => {
                                         setIsEditing(true);
                                         setEditingTaskId(task.id)
@@ -176,8 +177,8 @@ function DashboardContent() {
                                         priority={task.priority}
                                         status={task.status}
                                         date={task.date}
-                                        
-                            
+
+
 
                                         onEdit={() => {
                                             setIsEditing(true);
