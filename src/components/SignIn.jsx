@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SignUp from "./SignUp";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 
 const SignIn = () => {
     const navigate = useNavigate()
@@ -27,11 +28,13 @@ const SignIn = () => {
             alert("Login Successfully")
             navigate('/dashboard')
         } else {
-            alert("Invalid Username or User is not registered")
+            alert("Invalid Username or Password")
         }
-        
+
 
     }
+
+    const [showPassword, setShowPassword] = useState(false);
 
     return (
         <div className="signin-container bg-auth min-h-screen flex items-center justify-center">
@@ -62,12 +65,20 @@ const SignIn = () => {
                             </svg>
 
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 name="password"
                                 placeholder="Enter Password"
                                 onChange={handleChange}
-                                className="w-full h-10 p-2 pl-11 text-black border border-gray-400 rounded-lg mb-3 self-baseline"
+                                value={formData.password}
+                                className="w-full h-10 p-2 pl-11 pr-10 text-black border border-gray-400 rounded-lg mb-3 self-baseline"
                             />
+
+                            <span
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-black"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </span>
                         </div>
                         <button type="submit" className="bg-red-400 text-white py-3 px-4 rounder hover:bg-red-500 flex justify-start">
                             Sign In
@@ -98,4 +109,4 @@ const SignIn = () => {
     )
 };
 
-export default SignIn
+export default SignIn;

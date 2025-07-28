@@ -16,9 +16,7 @@ function Settings() {
             {/* Main content area */}
             <div className="flex flex-1 min-h-0 overflow-hidden relative">
 
-                <div className={`absolute z-20 h-full transition-transform duration-300 
-                    ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
-                    xl:relative xl:translate-x-0 xl:block absolute`}>
+                <div className={`fixed top-0 left-0 h-full w-64 bg-[#ff6a6b] z-30 transition-transform duration-300 ease-in-out ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} lg:relative lg:translate-x-0 lg:z-0`}>
                     <Sidebar />
                 </div>
 

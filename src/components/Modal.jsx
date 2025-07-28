@@ -73,7 +73,7 @@ function Modal({ title, buttonLabel, inputValue, setInputValue, onClose, onSubmi
                         type="text"
                         value={inputValue}
                         onChange={handleChange}
-                        className="w-full border px-3 py-2 rounded mb-3"
+                        className="w-full border px-3 py-2 rounded mb-3 text-black"
                         placeholder="Enter value"
                     />
                 )}

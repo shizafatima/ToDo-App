@@ -45,7 +45,7 @@ const Header = ({ onMenuClick }) => {
             <div className="flex items-center gap-1 text-2xl font-bold">
                 <button
                     onClick={onMenuClick}
-                    className="px-1 py-3 text-red-400 rounded-r-lg bg-transparent  xl:hidden ">
+                    className="px-1 py-3 text-red-400 rounded-r-lg bg-transparent  xl:hidden lg:hidden">
                     <Menu size={24} />
                 </button>
                 <span className="text-red-400 ">Dash</span>

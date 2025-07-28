@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 
 const SignUp = () => {
     const navigate = useNavigate()
@@ -34,8 +35,9 @@ const SignUp = () => {
             [name]: "",
         }));
     };
-
-
+    
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const [errors, setErrors] = useState({})
     const handleSubmit = (e) => {
@@ -193,12 +195,20 @@ const SignUp = () => {
                             </svg>
 
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 name="password"
                                 placeholder="Enter Password"
                                 onChange={handleChange}
-                                className="w-full h-10 p-2 pl-11 text-black border border-gray-400 rounded-lg mb-3 self-baseline"
+                                value={formData.password}
+                                className="w-full h-10 p-2 pl-11 pr-10 text-black border border-gray-400 rounded-lg mb-3 self-baseline"
                             />
+
+                            <span
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-black"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </span>
                         </div>
                         {errors.password && (
                             <p className="text-red-500 text-sm mt-1 text-left w-full">{errors.password}</p>
@@ -210,12 +220,20 @@ const SignUp = () => {
                             </svg>
 
                             <input
-                                type="password"
-                                name="confirmPassword"
-                                placeholder="Confirm Password"
+                                type={showConfirmPassword ? "text" : "password"}
+                                name="password"
+                                placeholder="Enter Password"
                                 onChange={handleChange}
-                                className="w-full h-10 p-2 pl-11 text-black border border-gray-400 rounded-lg mb-3 self-baseline"
+                                value={formData.confirmPassword}
+                                className="w-full h-10 p-2 pl-11 pr-10 text-black border border-gray-400 rounded-lg mb-3 self-baseline"
                             />
+
+                            <span
+                                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-black"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            >
+                                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </span>
 
                         </div>
                         {errors.confirmPassword && (
