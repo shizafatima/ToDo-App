@@ -6,7 +6,7 @@ import AccountSettings from "../components/AccountSettings";
 function Settings() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     return (
-        <div className="h-screen flex flex-col text-white w-full">
+        <div className="min-h-screen md:h-screen flex flex-col text-white w-full">
             <div className="max-w-screen-xl w-full">
                 <Header2 onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
 
