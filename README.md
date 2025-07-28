@@ -18,3 +18,7 @@ A responsive and dynamic task management app built with React. It allows users t
 - Tailwind CSS (or custom CSS classes)
 - Lucide Icons
 - LocalStorage API
+
+##  Live Demo
+
+Check out the live project: [ToDo App on Vercel](https://to-do-app-one-rho.vercel.app/)
