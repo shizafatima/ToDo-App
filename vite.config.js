@@ -34,7 +34,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  appType: 'spa', // 👈 this is important
+  appType: 'spa', //  this is important
+  base: './',
   plugins: [react()],
   server: {
     port: 5173,
