@@ -106,7 +106,7 @@ const SignUp = () => {
                 </div>
 
                 {/* Right Side - Form*/}
-                <div className="right-signup w-full md:w-1/2 pr-5 pl-2 py-6">
+                <div className="right-signup w-full md:w-1/2 pr-5 pl-5 md:pl-1 py-6">
                     <h2 className="text-black font-bold flex justify-center py-2 mb-4 text-3xl">Sign Up</h2>
 
                     {/* Add form here */}
