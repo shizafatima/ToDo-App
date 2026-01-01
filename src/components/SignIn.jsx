@@ -38,13 +38,13 @@ const SignIn = () => {
 
     return (
         <div className="signin-container bg-auth min-h-screen flex items-center justify-center">
-            <div className="flex flex-col md:flex-row bg-white rounded-xl shadow-lg max-w-4xl w-full">
+            <div className="flex flex-col md:flex-row bg-white rounded-xl shadow-lg max-w-xl w-full mx-2 md:mx-3 my-6 overflow-hidden px-4 md:px-4">
 
-                <div className="right-signup w-full md:w-1/2 p-10 ">
-                    <h2 className="text-black font-bold flex justify-start py-2 mb-5 text-4xl">Sign In</h2>
+                <div className="right-signup w-full md:w-1/2 pr-5 pl-5 md:pl-1 py-6">
+                    <h2 className="text-black font-bold flex justify-center py-2 mb-4 text-3xl">Sign In</h2>
 
                     <form onSubmit={handleSubmit}>
-                        <div className="flex items-center relative w-full mb-3  mr-2 outline-none h-10 ">
+                        <div className="flex items-center relative w-full mb-2 outline-none h-10 ">
                             <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 text-black w-6 h-6 pointer-events-none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                 <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd" />
                             </svg>
@@ -55,7 +55,7 @@ const SignIn = () => {
                                 placeholder="Enter User Name"
                                 onChange={handleChange}
                                 value={formData.userName}
-                                className="w-full h-10 p-2 pl-11 text-black border border-gray-400 rounded-lg mb-3 self-baseline"
+                                className="w-full h-10 p-2 pl-10 md:pl-11 text-black border border-gray-400 rounded-lg mb-3 self-baseline"
                             />
                         </div>
 
@@ -70,7 +70,7 @@ const SignIn = () => {
                                 placeholder="Enter Password"
                                 onChange={handleChange}
                                 value={formData.password}
-                                className="w-full h-10 p-2 pl-11 pr-10 text-black border border-gray-400 rounded-lg mb-3 self-baseline"
+                                className="w-full h-10 p-2 pl-10 md:pl-11 text-black border border-gray-400 rounded-lg mb-3 self-baseline"
                             />
 
                             <span
@@ -80,11 +80,11 @@ const SignIn = () => {
                                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                             </span>
                         </div>
-                        <button type="submit" className="bg-red-400 text-white py-3 px-4 rounder hover:bg-red-500 flex justify-start">
+                        <button type="submit" className="bg-red-400 text-white py-2 px-2 rounded hover:bg-red-500 flex justify-start">
                             Sign In
 
                         </button>
-                        <p className="text-sm mt-4 text-center text-black flex justify-start">
+                        <p className="text-sm mt-2 text-center text-black flex justify-start">
                             Don't have an account?{" "}
                             <span
                                 className="text-blue-600 cursor-pointer ml-1"
